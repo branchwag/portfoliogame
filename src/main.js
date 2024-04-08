@@ -41,7 +41,7 @@ k.scene("main", async () => {
 
   for (const layer of layers) {
     if (layer.name === "boundaries") {
-      for (const boundary of layer.Objects) {
+      for (const boundary of layer.objects) {
         map.add([
           k.area({
             shape: new k.Rect(k.vec2(0), boundary.width, boundary.height),
@@ -50,6 +50,13 @@ k.scene("main", async () => {
           k.pos(boundary.x, boundary.y),
           boundary.name,
         ]);
+
+        if (boundary.name) {
+          player.onCollide(boundary.name, () => {
+            player.isInDialogue = true;
+            //todo
+          });
+        }
       }
     }
   }
