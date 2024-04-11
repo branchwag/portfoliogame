@@ -23,7 +23,7 @@ k.scene("main", async () => {
   const mapData = await (await fetch("./map.json")).json();
   const layers = mapData.layers;
 
-  const map = k.make([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
+  const map = k.add([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
 
   const player = k.make([
     k.sprite("spritesheet", { anim: "idle-down" }),
@@ -78,6 +78,12 @@ k.scene("main", async () => {
 
   k.onUpdate(() => {
     k.camPos(player.pos.x, player.pos.y + 100);
+  });
+
+  k.onMouseDown((mouseBtn) => {
+    if (mouseBtn !== "left" || player.isInDialogue) return;
+    const worldMousePos = k.toWorld(k.mousePos());
+    player.moveTo(worldMousePos, player.speed);
   });
 });
 
